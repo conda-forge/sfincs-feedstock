@@ -13,6 +13,9 @@ source:
 
 build:
   number: 2
+  variant:
+    # Default to MPICH over other variants
+    down_prioritize_variant: ${{ 0 if mpi == "mpich" else 1 }}
   skip:
     - win
 

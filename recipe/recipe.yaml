@@ -40,6 +40,13 @@ outputs:
         - hdf5 [build=mpi_${{ mpi }}_*]
         - netcdf-fortran
         - netcdf-fortran [build=mpi_${{ mpi }}_*]
+        # build.sh links -llapack -lblas, whose symlinks resolve to the
+        # implementation's own library (e.g. libopenblas.so.0), so the
+        # implementation is baked into the binaries. Pin the OpenBLAS variant
+        # to match libopenblas in run, as otherwise the solver can pick NVPL
+        # on linux-aarch64 and the tests fail to load libnvpl_lapack_lp64_gomp.so.0.
+        - libblas [build=*_openblas]
+        - liblapack [build=*_openblas]
       run:
         - petsc
         - libopenblas

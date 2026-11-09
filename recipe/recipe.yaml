@@ -12,7 +12,7 @@ source:
   sha256: 67806cb26c02d592ccc2c56358c05a6bb1dc9111e1d85755a3d2d2b325a8f994
 
 build:
-  number: 2
+  number: 3
   variant:
     # Default to MPICH over other variants
     down_prioritize_variant: ${{ 0 if mpi == "mpich" else 1 }}
@@ -40,6 +40,13 @@ outputs:
         - hdf5 [build=mpi_${{ mpi }}_*]
         - netcdf-fortran
         - netcdf-fortran [build=mpi_${{ mpi }}_*]
+        # build.sh links -llapack -lblas, whose symlinks resolve to the
+        # implementation's own library (e.g. libopenblas.so.0), so the
+        # implementation is baked into the binaries. Pin the OpenBLAS variant
+        # to match libopenblas in run, as otherwise the solver can pick NVPL
+        # on linux-aarch64 and the tests fail to load libnvpl_lapack_lp64_gomp.so.0.
+        - libblas [build=*_openblas]
+        - liblapack [build=*_openblas]
       run:
         - petsc
         - libopenblas

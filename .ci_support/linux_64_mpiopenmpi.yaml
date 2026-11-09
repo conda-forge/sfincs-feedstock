@@ -1,3 +1,5 @@
+DOCKER_PLATFORM:
+- linux/amd64
 c_stdlib:
 - sysroot
 c_stdlib_version:
@@ -7,11 +9,11 @@ channel_sources:
 channel_targets:
 - conda-forge main
 docker_image:
-- quay.io/condaforge/linux-anvil-x86_64:alma9
+- quay.io/condaforge/linux-anvil-x86_64:alma10
 fortran_compiler:
 - gfortran
 fortran_compiler_version:
-- '14'
+- '15'
 hdf5:
 - 1.14.6
 - '2'
@@ -22,8 +24,8 @@ mpich:
 netcdf_fortran:
 - '4.6'
 openmpi:
-- '4'
+- '5'
 petsc:
-- '3.25'
+- '3.26'
 target_platform:
 - linux-64
